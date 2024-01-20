@@ -6,6 +6,16 @@
 
 - https://github.com/ajmircoder/fyleProject.git
 
+## API Used
+
+- API_User_Documentation: https://docs.github.com/en/rest/users/users?apiVersion=2022-11-28#get-a-user
+
+- API_User_Repository_Documentation: https://docs.github.com/en/rest/repos/repos?apiVersion=2022-11-28#list-public-repositories
+ 
+- EX (Fetch user data): https://api.github.com/users/ajmircoder;
+
+- EX (Fetch user repository data): https://api.github.com/users/ajmircoder/repos?per_page=10;
+  
 - ## Technologies Used
   
 - HTML
