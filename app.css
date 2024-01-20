@@ -5,6 +5,9 @@ body{
     padding: 0 15%;
     background: #eeedf3 !important;
 }
+#main{
+    box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
+}
 .locationIcon {
     width: 20px;
     height: 20px;
