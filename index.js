@@ -1,5 +1,7 @@
 var githubUrl = 'https://api.github.com/';
-
+var g_userName;
+var g_userId;
+var g_repoCount;
 // get user from api
 const showUserData = async (userName) => {
     const url = `${githubUrl}users/${userName}`;
@@ -15,8 +17,9 @@ const showUserData = async (userName) => {
         })
         .then((data) => {
             document.querySelector('#main').classList.remove('d-none');
-            userId = data.id;
-            repoCount = data.public_repos;
+            g_userName = data.login;
+            g_userId = data.id;
+            g_repoCount = data.public_repos;
             document.querySelector('#userImage').src = data.avatar_url ? data.avatar_url : "";
             document.querySelector('#userName').innerText = data.name ? data.name : "";
             document.querySelector('#bio').innerText = data.bio ? data.bio : "";
@@ -36,11 +39,12 @@ const showUserData = async (userName) => {
             document.querySelector('#errors').classList.remove('d-none');
             isOk = false;
         });
-    return { repoCount, userId, isOk };
+    return { repoCount: g_repoCount, userId: g_userId, isOk };
 }
 
 // get repositories from api
-const showRepoData = async (userName, pageUrl = null, pageCount = 10, ) => {
+const showRepoData = async (userName, pageUrl = null, pageCount = 10,) => {
+    console.log(pageUrl)
     document.querySelectorAll('.repo').forEach(e => e.remove());
     let userRepo;
     const url = pageUrl ? pageUrl : `${githubUrl}users/${userName}/repos?per_page=${pageCount}`;
@@ -49,13 +53,10 @@ const showRepoData = async (userName, pageUrl = null, pageCount = 10, ) => {
         .then((data) => {
             userRepo = data
         });
-    if(!userRepo.length){
+    if (!userRepo.length) {
         document.querySelector('#noRepo').classList.remove('d-none');
-    }else{
+    } else {
         document.querySelector('#noRepo').classList.add('d-none');
-    }
-    if(userRepo.length > 10){
-        document.querySelector('#footer').classList.remove('d-none');
     }
     let dummyRepo = document.querySelector('#dummyRepo');
     let topic = document.querySelector('.topic');
@@ -85,7 +86,12 @@ const showRepoData = async (userName, pageUrl = null, pageCount = 10, ) => {
 }
 
 // create pagination buttons
-const createPagination = async (repoCount, userId, pageCount = 10) => {
+const createPagination = async (userName, repoCount, userId, pageCount = 10) => {
+    if (repoCount > 10) {
+        document.querySelector('#footer').classList.remove('d-none');
+    } else {
+        document.querySelector('#footer').classList.add('d-none');
+    }
     let i = 1;
     document.querySelectorAll('.pageButton').forEach(e => e.remove());
     while (i <= Math.ceil(repoCount / pageCount)) {
@@ -100,7 +106,7 @@ const createPagination = async (repoCount, userId, pageCount = 10) => {
             document.querySelector('#load').classList.remove('d-none');
             document.querySelector('.selected').classList.remove('selected');
             e.target.classList.add('selected');
-            await showRepoData(url);
+            await showRepoData(userName, url);
         }
         document.querySelector('#buttons').appendChild(a);
         i++;
@@ -118,18 +124,20 @@ const createPage = async (userName = "ajmircoder") => {
     const { repoCount, userId, isOk } = await showUserData(userName);
     if (isOk) {
         await showRepoData(userName);
-        createPagination(repoCount, userId);
-        const select = document.querySelector('#changeRepoCount');
-        select.addEventListener('change', async (e) => {
-            document.querySelector('#load').classList.remove('d-none');
-            await showRepoData(userName,    null, e.target.value);
-            createPagination(repoCount, userId, e.target.value);
-        });
+        createPagination(userName, repoCount, userId);
     }
 }
 createPage();
 
+// added EventListener for per_page count dropdown;
+const select = document.querySelector('#changeRepoCount');
+select.addEventListener('change', async (e) => {
+    document.querySelector('#load').classList.remove('d-none');
+    await showRepoData(g_userName, null, e.target.value);
+    await createPagination(g_userName, g_repoCount, g_userId, e.target.value);
+});
+
 // added eventlistener for user name;
-document.querySelector('#userInput').addEventListener('change', (e)=>{
+document.querySelector('#userInput').addEventListener('change', (e) => {
     createPage(e.target.value);
 })
