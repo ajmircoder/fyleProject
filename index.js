@@ -1,4 +1,6 @@
 var githubUrl = 'https://api.github.com/';
+
+// get user from api
 const showUserData = async (userName) => {
     const url = `${githubUrl}users/${userName}`;
     let repoCount = 0;
@@ -36,6 +38,8 @@ const showUserData = async (userName) => {
         });
     return { repoCount, userId, isOk };
 }
+
+// get repositories from api
 const showRepoData = async (userName, pageUrl = null, pageCount = 10, ) => {
     document.querySelectorAll('.repo').forEach(e => e.remove());
     let userRepo;
@@ -53,7 +57,6 @@ const showRepoData = async (userName, pageUrl = null, pageCount = 10, ) => {
     if(userRepo.length > 10){
         document.querySelector('#footer').classList.remove('d-none');
     }
-
     let dummyRepo = document.querySelector('#dummyRepo');
     let topic = document.querySelector('.topic');
     let topics = document.querySelector('.topics');
@@ -80,6 +83,8 @@ const showRepoData = async (userName, pageUrl = null, pageCount = 10, ) => {
     });
     document.querySelector('#load').classList.add('d-none');
 }
+
+// create pagination buttons
 const createPagination = async (repoCount, userId, pageCount = 10) => {
     let i = 1;
     document.querySelectorAll('.pageButton').forEach(e => e.remove());
@@ -101,6 +106,8 @@ const createPagination = async (repoCount, userId, pageCount = 10) => {
         i++;
     }
 }
+
+// create the page using above functions
 const createPage = async (userName = "ajmircoder") => {
     document.querySelector('#main').classList.add('d-none');
     if (!userName) {
@@ -122,6 +129,7 @@ const createPage = async (userName = "ajmircoder") => {
 }
 createPage();
 
+// added eventlistener for user name;
 document.querySelector('#userInput').addEventListener('change', (e)=>{
     createPage(e.target.value);
 })
