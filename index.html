@@ -12,13 +12,20 @@
 </head>
 
 <body class="">
+    <form action="#" class="w-100 my-3">
+        <div class="w-50 mx-auto d-flex">
+            <input id="userInput" type="text" class="form-control d-inline me-1" placeholder="Github Username">
+            <button id="userInputBtn" type="submit" class="btn btn-primary d-inline">Search</button>
+        </div>
+      </form>
     <div id="errors" class="d-none">
         <h1 class="text-center my-5">User Not Found:</h1>
     </div>
     <main id="main" class="border border-1 mb-5 d-none">
+        
         <header id="userInfo" class=" d-flex p-5">
             <img id="userImage" class="rounded-circle mx-4 w-25 h-25" src="" alt="">
-            <div id="intro" class="my-auto px-3 w-100 rounded-2">
+            <div id="intro" class="my-auto p-3 w-100 rounded-2">
                 <h1 class="my-2" id="userName"></h1>
                 <h2 id="bio"></h2>
                 <div class="d-flex align-items-center">
@@ -45,15 +52,16 @@
             <p class="text-center ">Loading.........</p>
         </div>
         <section id="perent" class="w-100">
+            <h1 id="noRepo" class="d-none text-center">No Repositories</h1>
             <div id="dummyRepo" class="d-none">
-                <h3 class="repoName"></h3>
+                <a class="repolink text-decoration-none" target="_blank" href=""><h3 class="repoName"></h3></a>
                 <h4 class="repodes"></h4>
                 <div class="topics ">
                     <p class="topic text-white d-none" id="topic"></p>
                 </div>
             </div>
         </section>
-        <footer class="w-75 mx-auto">
+        <footer id="footer" class="w-75 mx-auto d-none">
             <div id="buttons" class="">
                 <select name="" id="changeRepoCount">
                     <option value="10">10</option>

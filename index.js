@@ -1,16 +1,17 @@
 var githubUrl = 'https://api.github.com/';
-var userName = 'ad';
-const showUserData = async () => {
+const showUserData = async (userName) => {
     const url = `${githubUrl}users/${userName}`;
     let repoCount = 0;
     let userId = ''
+    let isOk = false;
     await fetch(url)
-        .then((res) => res.json())
-        .then((data) => {
-            if(data.message == "Not Found"){
-                document.querySelector('#errors').classList.remove('d-none');
-                return
+        .then((res) => {
+            if (!res.ok) {
+                throw new Error("HTTP status " + res.status);
             }
+            return res.json();
+        })
+        .then((data) => {
             document.querySelector('#main').classList.remove('d-none');
             userId = data.id;
             repoCount = data.public_repos;
@@ -18,22 +19,24 @@ const showUserData = async () => {
             document.querySelector('#userName').innerText = data.name ? data.name : "";
             document.querySelector('#bio').innerText = data.bio ? data.bio : "";
             document.querySelector('#location').innerText = data.location ? data.location : "";
-            if(data.twitter_username){
-                document.querySelector('#twitter').href = `https://twitter.com/${data.twitter_username}`
+            if (data.twitter_username) {
+                let twitter = document.querySelector('#twitter');
+                twitter.classList.remove('d-none');
+                twitter.href = `https://twitter.com/${data.twitter_username}`
                 document.querySelector('#twitterName').innerText = data.twitter_username;
-            }else{
-                document.querySelector('#twitter').remove();
+            } else {
+                document.querySelector('#twitter').classList.add('d-none');
             }
             document.querySelector('#github').href = data.html_url ? data.html_url : "";
             document.querySelector('#githubName').innerText = data.login ? data.login : "";;
-
-        }).catch((err)=>{
+            isOk = true;
+        }).catch((err) => {
             document.querySelector('#errors').classList.remove('d-none');
-        })
-    return { repoCount, userId };
+            isOk = false;
+        });
+    return { repoCount, userId, isOk };
 }
-const showRepoData = async (pageUrl = null, pageCount = 10) => {
-    
+const showRepoData = async (userName, pageUrl = null, pageCount = 10, ) => {
     document.querySelectorAll('.repo').forEach(e => e.remove());
     let userRepo;
     const url = pageUrl ? pageUrl : `${githubUrl}users/${userName}/repos?per_page=${pageCount}`;
@@ -42,6 +45,15 @@ const showRepoData = async (pageUrl = null, pageCount = 10) => {
         .then((data) => {
             userRepo = data
         });
+    if(!userRepo.length){
+        document.querySelector('#noRepo').classList.remove('d-none');
+    }else{
+        document.querySelector('#noRepo').classList.add('d-none');
+    }
+    if(userRepo.length > 10){
+        document.querySelector('#footer').classList.remove('d-none');
+    }
+
     let dummyRepo = document.querySelector('#dummyRepo');
     let topic = document.querySelector('.topic');
     let topics = document.querySelector('.topics');
@@ -51,6 +63,7 @@ const showRepoData = async (pageUrl = null, pageCount = 10) => {
         let newTopics = topics.cloneNode(true);
         newDiv.querySelector('.repoName').textContent = rep.name ? rep.name : "";
         newDiv.querySelector('.repodes').textContent = rep.description ? rep.description.length > 100 ? rep.description.substring(0, 100) + "..." : rep.description : "No description";
+        newDiv.querySelector('.repolink').href = rep.html_url;
         for (let i = 0; i < rep.topics.length; i++) {
             let cloneTopic = topic.cloneNode(true);
             cloneTopic.classList.remove('d-none')
@@ -88,16 +101,27 @@ const createPagination = async (repoCount, userId, pageCount = 10) => {
         i++;
     }
 }
-const createPage = async () => {
+const createPage = async (userName = "ajmircoder") => {
+    document.querySelector('#main').classList.add('d-none');
+    if (!userName) {
+        document.querySelector('#errors').classList.remove('d-none');
+        return;
+    }
     document.querySelector('#load').classList.remove('d-none');
-    const { repoCount, userId } = await showUserData();
-    await showRepoData();
-    createPagination(repoCount, userId);
-    const select = document.querySelector('#changeRepoCount');
-    select.addEventListener('change', async(e) => {
-        document.querySelector('#load').classList.remove('d-none');
-        await showRepoData(null, e.target.value);
-        createPagination(repoCount, userId, e.target.value);
-    });
+    const { repoCount, userId, isOk } = await showUserData(userName);
+    if (isOk) {
+        await showRepoData(userName);
+        createPagination(repoCount, userId);
+        const select = document.querySelector('#changeRepoCount');
+        select.addEventListener('change', async (e) => {
+            document.querySelector('#load').classList.remove('d-none');
+            await showRepoData(userName,    null, e.target.value);
+            createPagination(repoCount, userId, e.target.value);
+        });
+    }
 }
 createPage();
+
+document.querySelector('#userInput').addEventListener('change', (e)=>{
+    createPage(e.target.value);
+})
