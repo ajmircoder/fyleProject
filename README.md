@@ -1,6 +1,6 @@
 # fyleProject
 
- ## This is a simple project. User can type his github accout name. Then it's show the all Repositories user have.
+ ## This is a simple project. Users can type their GitHub account name. Then it shows all the Repositories users have.
 
 ## Clone the repository:
 
@@ -21,6 +21,8 @@
 - HTML
 - CSS
 - Javascript
-- Boostrap
+- Bootstrap
+
+## Extra features: The user can type any username to see repositories
 
 ![image](https://github.com/ajmircoder/fyleProject/assets/127777945/78ce7eff-82a7-4757-9bd3-9907894a148e)
