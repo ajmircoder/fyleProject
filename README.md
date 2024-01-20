@@ -1,7 +1,6 @@
 # fyleProject
 
-- This is a simple project.
-User can type his github accout name. Then it's show the all Repositories user have.
+ ## This is a simple project. User can type his github accout name. Then it's show the all Repositories user have.
 
 ## Clone the repository:
 
