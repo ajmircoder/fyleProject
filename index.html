@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="app.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <title>Fyle</title>
+</head>
+
+<body class="">
+    <div id="errors" class="d-none">
+        <h1 class="text-center my-5">User Not Found:</h1>
+    </div>
+    <main id="main" class="border border-1 mb-5 d-none">
+        <header id="userInfo" class=" d-flex p-5">
+            <img id="userImage" class="rounded-circle mx-4 w-25 h-25" src="" alt="">
+            <div id="intro" class="my-auto px-3 w-100 rounded-2">
+                <h1 class="my-2" id="userName"></h1>
+                <h2 id="bio"></h2>
+                <div class="d-flex align-items-center">
+                    <img class="locationIcon me-2"
+                        src="https://cdn.iconscout.com/icon/free/png-512/free-location-4083026-3377334.png?f=webp&w"
+                        alt="">
+                    <h3 class="mb-0" id="location"></h3>
+                </div>
+                <a id="twitter" href="" target="_blank" class="d-flex align-items-center text-decoration-none mb-1">
+                    <img width="20px" height="20px" class=" me-2 "
+                        src="https://cdn.iconscout.com/icon/free/png-512/free-twitter-241-721979.png?f=webp&w=256"
+                        alt="">
+                    <span id="twitterName"></span>
+                </a>
+                <a id="github" href="" target="_blank" class="d-flex align-items-center text-decoration-none">
+                    <img width="20px" height="20px" class="me-2"
+                        src="https://cdn.iconscout.com/icon/premium/png-512-thumb/github-2752182-2284999.png?f=webp&w=256"
+                        alt="">
+                    <span id="githubName"></span>
+                </a>
+            </div>
+        </header>
+        <div id="load" class="d-none">
+            <p class="text-center ">Loading.........</p>
+        </div>
+        <section id="perent" class="w-100">
+            <div id="dummyRepo" class="d-none">
+                <h3 class="repoName"></h3>
+                <h4 class="repodes"></h4>
+                <div class="topics ">
+                    <p class="topic text-white d-none" id="topic"></p>
+                </div>
+            </div>
+        </section>
+        <footer class="w-75 mx-auto">
+            <div id="buttons" class="">
+                <select name="" id="changeRepoCount">
+                    <option value="10">10</option>
+                    <option value="25">25</option>
+                    <option value="50">50</option>
+                    <option value="100">100</option>
+                </select>
+            </div>
+        </footer>
+
+    </main>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+        crossorigin="anonymous"></script>
+    <script src="index.js"></script>
+</body>
+
+</html>
+
+

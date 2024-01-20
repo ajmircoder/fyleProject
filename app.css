@@ -1,0 +1,89 @@
+*,html {
+    font-family: 'Times New Roman', Times, serif;
+}
+body{
+    padding: 0 15%;
+    background: #eeedf3 !important;
+}
+.locationIcon {
+    width: 20px;
+    height: 20px;
+}
+
+header {
+    background: #eeedf3;
+}
+
+#intro {
+    background: #f2f2f2;
+}
+
+#perent {
+    background: #eeedf3;
+    padding: 10px;
+    display: grid;
+    grid-template-columns: 50% 50%;
+}
+
+.repo {
+    background: #f2f2f2;
+    border: 1px solid black;
+    margin: 5px;
+    padding: 10px;
+    display: block;
+}
+
+.topics {
+    display: flex;
+    flex-flow: row wrap;
+}
+
+.topic {
+    margin: 0 5px 5px 0;
+    background: #428bca;
+    padding: 3px 6px;
+    border-radius: 10px;
+}
+
+.repoName {
+    color: #428bca;
+}
+
+.selected{
+    background: #428bca !important;
+}
+
+#buttons{
+    display: flex;
+    justify-content: center;
+    margin: 10px 0;
+    flex-flow: row wrap;
+}
+
+@media (max-width: 768px) {
+    body {
+      padding: 0;
+    }
+
+    #intro{
+        width: 100%;
+        padding: 5px !important;
+    }
+    #userInfo{
+        display: block !important;
+        padding: 20px !important;
+    }
+    #userImage{
+        margin: 0 !important;
+        margin: 5px !important;
+    }
+    #perent {
+        overflow: hidden;
+        background: #eeedf3;
+        padding: 10px;
+        display: inline-block;
+    }
+    .repo{
+        overflow: hidden;
+    }
+  }
